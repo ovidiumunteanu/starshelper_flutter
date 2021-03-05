@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../utils/constant.dart';
 import '../utils/helper.dart';
-import './modules.dart';
+import './modules.dart'; // module list page
+import './timetables.dart'; // timetable list page
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -48,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 minWidth: scrWidth * 0.8,
                 height: 50,
                 onPressed: () {
+                  gotoPage(context, TTablesPage());
               },),
               margin: EdgeInsets.only(top: 20),
             ),

@@ -3,8 +3,9 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import '../models/module.dart';
 
 class ModuleItem extends StatefulWidget {
-  ModuleItem({Key key, this.data}) : super(key: key);
+  ModuleItem({Key key, this.data, this.onSelect}) : super(key: key);
 
+  final Function onSelect; 
   final CModule data;
 
   @override
@@ -32,6 +33,7 @@ class _ModuleItemState extends State<ModuleItem> {
                       setState(() {
                         isChecked = new_val;
                       });
+                      widget.onSelect(new_val, widget.data);
                     },),),
                     Expanded(child: Padding(padding: EdgeInsets.only(top: 0), child: Text(
                       widget.data.Module_Code + " - " + widget.data.Module_Name
