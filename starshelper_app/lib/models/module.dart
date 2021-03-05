@@ -27,34 +27,19 @@ class CModule {
       this.Remarks,
       this.Venue);
 
-  static List<CModule> fetchAll() {
-    return [
-      CModule("Day", 1212, 1313, 124, 234, 2, "EE2031", "Module_Name", "Type",
-          "Group", "Remarks", "Venue"),
-      CModule("Day", 1212, 1313, 124, 234, 2, "EE2031", "Module_Name", "Type",
-          "Group", "Remarks", "Venue"),
-      CModule("Day", 1212, 1313, 124, 234, 2, "EE2031", "Module_Name", "Type",
-          "Group", "Remarks", "Venue"),
-      CModule("Day", 1212, 1313, 124, 234, 2, "EE2031", "Module_Name", "Type",
-          "Group", "Remarks", "Venue"),
-      CModule("Day", 1212, 1313, 124, 234, 2, "EE2031", "Module_Name", "Type",
-          "Group", "Remarks", "Venue"),
-      CModule("Day", 1212, 1313, 124, 234, 2, "EE2031", "Module_Name", "Type",
-          "Group", "Remarks", "Venue"),
-      CModule("Day", 1212, 1313, 124, 234, 2, "EE2031", "Module_Name", "Type",
-          "Group", "Remarks", "Venue"),
-      CModule("Day", 1212, 1313, 124, 234, 2, "EE2031", "Module_Name", "Type",
-          "Group", "Remarks", "Venue"),
-      CModule("Day", 1212, 1313, 124, 234, 2, "EE2031", "Module_Name", "Type",
-          "Group", "Remarks", "Venue"),
-      CModule("Day", 1212, 1313, 124, 234, 2, "EE2031", "Module_Name", "Type",
-          "Group", "Remarks", "Venue"),
-      CModule("Day", 1212, 1313, 124, 234, 2, "EE2031", "Module_Name", "Type",
-          "Group", "Remarks", "Venue"),
-      CModule("Day", 1212, 1313, 124, 234, 2, "EE2031", "Module_Name", "Type",
-          "Group", "Remarks", "Venue"),
-      CModule("Day", 1212, 1313, 124, 234, 2, "EE2031", "Module_Name", "Type",
-          "Group", "Remarks", "Venue")
-    ];
+  static CModule fromDynamic(dynamic data) {
+    return CModule(
+      data["Day"],
+      data["Start_Time"],
+      data["End_Time"],
+      data["ID"],
+      data["index"],
+      data["Lesson_No"],
+      data["Module_Code"],
+      data["Module_Name"],
+      data["Type"],
+      data["Group"],
+      data["Remarks"],
+      data["Venue"]);
   }
 }

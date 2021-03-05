@@ -4,12 +4,12 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import '../components/searchbar.dart';
 import '../components/moduleitem.dart';
 import '../models/module.dart';
+import '../apis/modules.dart';
 
 class ModulesPage extends StatefulWidget {
   ModulesPage({Key key}) : super(key: key);
 
   final String title = "Module List";
-
 
   @override
   _ModulesPageState createState() => _ModulesPageState();
@@ -19,6 +19,21 @@ class _ModulesPageState extends State<ModulesPage> {
   final ctrlEdit = TextEditingController();
 
   int selectedCount = 0;
+  List<CModule> module_list = [];
+
+  @override
+  void initState()  {
+    super.initState();
+    api_modules.fetchAll().then((list ) {
+      setState(() {
+        module_list = list;
+      });
+    })
+    .catchError((err) {
+        print('bbb $err');
+    })
+    ;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +62,7 @@ class _ModulesPageState extends State<ModulesPage> {
               SingleChildScrollView(
                 padding: EdgeInsets.all(10),
                 child: Column(children: 
-                  CModule.fetchAll().map((item) => ModuleItem(data: item)).toList()
+                  module_list.map((item) => ModuleItem(data: item)).toList()
                 ,)
               ),
               
