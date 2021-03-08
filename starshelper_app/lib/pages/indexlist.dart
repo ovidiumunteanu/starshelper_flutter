@@ -8,64 +8,61 @@ import '../models/module.dart';
 import '../models/combindIndexes.dart';
 import '../models/lesson.dart';
 import '../models/index.dart';
+import '../models/timetable.dart';
 import '../utils/helper.dart';
-import './genTtable.dart';
 import '../utils/global.dart';
-import './viewtimetable.dart';
+import '../apis/timetables.dart';
+import './home.dart';
 
-class SelectedModulesPage extends StatefulWidget {
-  SelectedModulesPage({Key key, this.selectedAllmodules}) : super(key: key);
+class IndexListPage extends StatefulWidget {
+  IndexListPage({Key key, this.timeTable, this.combinedIndex})
+      : super(key: key);
 
-  final String title = "Selected Modules";
-  List<CModule> selectedAllmodules = [];
+  final String title = "Index List";
+  Map<String, List<CLesson>> timeTable;
+  CcombinedIndexes combinedIndex;
 
   @override
-  _SelectedModulesPageState createState() => _SelectedModulesPageState();
+  _IndexListPageState createState() => _IndexListPageState();
 }
 
-class _SelectedModulesPageState extends State<SelectedModulesPage> {
-  final ctrlEdit = TextEditingController();
-
+class _IndexListPageState extends State<IndexListPage> {
   @override
   void initState() {
     super.initState();
-
-    Global().selectedAllModules = widget.selectedAllmodules;
   }
 
   proceed() {
-    showLoaderDialog(context, "Please hold while we generate a timetable for you.", "This may take some time, depending on the number of modules.");
-    generateTimeTable();
-    // gotoPage(context, GeneratePage(selectedAllmodules: widget.selectedAllmodules));
+    showSaveTimeTableDialog(context, () {
+      Navigator.of(context, rootNavigator: true).pop();
+    }, (String tableName) {
+      if (tableName.isEmpty) {
+        showAlertDialog(context, () {}, () {
+          Navigator.of(context, rootNavigator: true).pop();
+        }, "Warning!", "Enter tablename!");
+        return;
+      }
+      showLoaderDialog(context, "Saving timetable...", null);
+      saveTimeTable(tableName);
+    });
   }
 
-  Future generateTimeTable() async {
-    List<CcombinedIndexes> indexes =
-        await compute(getAllcombinedIndexes, widget.selectedAllmodules);
-
-    // for each combined index , create timetable
-    Map<String, dynamic> result =
-        await compute(getTimetableFromIndexes, indexes);
-    if (result != null) {
-      Navigator.of(context, rootNavigator: true).pop();
-      print("success");
-
-      Map<String, List<CLesson>> genTimeTable  = result["timetable"];
-      Global().availCombinedIndexList = result["indexes"];
-      
+  saveTimeTable(String tableName) {
+    api_timetables.createData(CTimeTable(tableName, widget.timeTable)).then((res) {
+      Navigator.of(context, rootNavigator: true).pop(); // close loading
+      Navigator.of(context, rootNavigator: true).pop(); // close timetable modal
       showAlertDialog(context, () {}, () {
-        Navigator.of(context, rootNavigator: true).pop();
-        gotoPage(context, ViewTmTable(isNewTable: true, tableName: "", TimeTable: genTimeTable, usedIndex: result["usedIndex"],));
-      }, "Success!", "Timetable is created");
-
-    } else {
-      print("failed");
-
-      Navigator.of(context, rootNavigator: true).pop();
+          Navigator.of(context, rootNavigator: true).pop();
+          // go home page
+          gotoPageReplacement(context, MyHomePage(title: 'Home',));
+        }, "Success!", "Your tablename saved!");
+    }).catchError((err) {
+      Navigator.of(context, rootNavigator: true).pop(); // close loading
       showAlertDialog(context, () {}, () {
-        Navigator.of(context, rootNavigator: true).pop();
-      }, "Warning!", "There is no available timetables.");
-    }
+          Navigator.of(context, rootNavigator: true).pop();
+        }, "Error!", "Couldn't save this tablename!");
+      print('save timetable error $err');
+    });
   }
 
   @override
@@ -87,9 +84,9 @@ class _SelectedModulesPageState extends State<SelectedModulesPage> {
                 padding: EdgeInsets.all(10),
                 child: Container(
                   child: Column(
-                    children: widget.selectedAllmodules
+                    children: widget.combinedIndex.indexModules
                         .map(
-                          (moduleItem) => Container(
+                          (indexItem) => Container(
                             width: double.infinity,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,12 +95,14 @@ class _SelectedModulesPageState extends State<SelectedModulesPage> {
                                   color: Colors.white,
                                   child: ListTile(
                                     title: Text(
-                                      moduleItem.Module_Code,
+                                      indexItem.lessons[0].Module_Code +
+                                          " - " +
+                                          indexItem.lessons[0].Module_Name,
                                       style: TextStyle(color: Colors.black87),
                                       textAlign: TextAlign.start,
                                     ),
                                     subtitle: Text(
-                                      moduleItem.Module_Name,
+                                      indexItem.index,
                                       style: TextStyle(color: Colors.black87),
                                       textAlign: TextAlign.start,
                                     ),
@@ -123,35 +122,12 @@ class _SelectedModulesPageState extends State<SelectedModulesPage> {
               ),
             ),
             Container(
-              width: double.infinity,
-              child: Column(
-                children: [
-                  Text(
-                    "Tap on the modules to see the available index and timeslots.",
-                    style: TextStyle(color: Colors.white, fontSize: 12),
-                  )
-                ],
-              ),
-              padding: EdgeInsets.only(top: 6, bottom: 6, left: 12, right: 12),
-              decoration: BoxDecoration(color: Colors.black26),
-            ),
-            Container(
               child: Row(
                 children: [
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${widget.selectedAllmodules.length}" +
-                              " Modules selected",
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                        Text(
-                          "Tap the plus to proceed",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        )
-                      ],
+                      children: [],
                     ),
                   ),
                   FloatingActionButton(
@@ -159,17 +135,18 @@ class _SelectedModulesPageState extends State<SelectedModulesPage> {
                       proceed();
                     },
                     child: Icon(
-                      Feather.plus,
+                      Feather.arrow_down,
                       color: Colors.white,
                       size: 20,
                     ),
-                    backgroundColor: C_colors.btnbg,
+                    backgroundColor: C_colors.bg,
                   ),
                 ],
               ),
               padding:
                   EdgeInsets.only(top: 12, bottom: 12, left: 20, right: 20),
-              decoration: BoxDecoration(color: C_colors.bg),
+              decoration:
+                  BoxDecoration(color: Colors.white, boxShadow: [BoxShadow()]),
             ),
           ],
         ),

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class SearchBar extends StatefulWidget {
-  SearchBar({Key key, this.placeholder, this.width}) : super(key: key);
+  SearchBar({Key key, this.placeholder, this.width, this.onChange}) : super(key: key);
 
   final String placeholder;
   final double width;
+  final Function onChange;
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -32,6 +33,7 @@ class _SearchBarState extends State<SearchBar> {
                       controller: ctrlEdit,
                       style: TextStyle(color: Colors.black87),
                       onChanged: (text) {
+                        widget.onChange(text);
                       },
                       decoration: InputDecoration( hintText: widget.placeholder, hintStyle: TextStyle(color: Colors.black54), border: InputBorder.none),
                       ),),),

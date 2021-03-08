@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:starshelper_app/models/index.dart';
 import 'package:starshelper_app/utils/constant.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import '../components/searchbar.dart';
 import '../components/moduleitem.dart';
-import '../models/module.dart';
+// apis
 import '../apis/modules.dart';
-import './selected_modules.dart';
+// utils
 import '../utils/helper.dart';
+// pages
+import './selected_modules.dart';
+// models
+import '../models/module.dart';
+import '../models/lesson.dart';
 
 class ModulesPage extends StatefulWidget {
   ModulesPage({Key key}) : super(key: key);
@@ -22,7 +28,8 @@ class _ModulesPageState extends State<ModulesPage> {
 
   bool isloading = false;
   List<CModule> selectedModules = [];
-  List<CModule> module_list = [];
+  List<CModule> allModules = [];
+  List<CModule> showModules = [];
 
   @override
   void initState() {
@@ -30,9 +37,40 @@ class _ModulesPageState extends State<ModulesPage> {
     setState(() {
       isloading = true;
     });
+
+    List<CModule> tmpAllModules = [];
     api_modules.fetchAll().then((list) {
+      // group modules
+      Map<String, List<CLesson>> tmp_groups = {};
+      for (CLesson item in list) {
+        if (tmp_groups[item.Module_Code] == null) {
+          tmp_groups[item.Module_Code] = [];
+        }
+        tmp_groups[item.Module_Code].add(item);
+      }
+
+      for (String moduleCode in tmp_groups.keys) {
+        Map<String, List<CLesson>> tmp_groups_index = {};
+        for (CLesson item in tmp_groups[moduleCode]) {
+          if (tmp_groups_index[item.index.toString()] == null) {
+            tmp_groups_index[item.index.toString()] = [];
+          }
+          tmp_groups_index[item.index.toString()].add(item);
+        }
+
+        List<CIndex> tmpIndexes = [];
+        for (String index in tmp_groups_index.keys) {
+          CIndex tmpIndex = CIndex(index, tmp_groups_index[index]);
+          tmpIndexes.add(tmpIndex);
+        }
+
+        tmpAllModules.add(CModule(
+            moduleCode, tmp_groups[moduleCode][0].Module_Name, tmpIndexes));
+      }
+
       setState(() {
-        module_list = list;
+        allModules = tmpAllModules;
+        showModules = tmpAllModules;
         isloading = false;
       });
     }).catchError((err) {
@@ -59,6 +97,31 @@ class _ModulesPageState extends State<ModulesPage> {
     }
   }
 
+  proceed() {
+    if(selectedModules.length == 0) {return;}
+    gotoPage(context, SelectedModulesPage(selectedAllmodules: selectedModules));
+  }
+
+  searchModule(String text){
+    if(text.isEmpty) {
+      setState(() {
+        showModules = allModules;
+      });
+      return;
+    }
+    String findText = text.toLowerCase();
+    List<CModule> tmpModules = [];
+    for(CModule item in allModules) {
+      String searchData = (item.Module_Code + item.Module_Name).toLowerCase();
+      if(searchData.contains(findText) == true) {
+        tmpModules.add(item);
+      }
+    }
+    setState(() {
+      showModules = tmpModules;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double scrWidth = MediaQuery.of(context).size.width;
@@ -82,6 +145,7 @@ class _ModulesPageState extends State<ModulesPage> {
               child: SearchBar(
                 width: scrWidth * 0.9,
                 placeholder: "Search by Module Name/Code",
+                onChange: (String text) {searchModule(text);},
               ),
               padding: EdgeInsets.all(8),
             ),
@@ -99,9 +163,9 @@ class _ModulesPageState extends State<ModulesPage> {
                               ),
                             )
                           ]
-                        : module_list
-                            .map((item) =>
-                                ModuleItem(data: item, onSelect: onSelectItem))
+                        : showModules
+                            .map((moduleItem) => ModuleItem(
+                                data: moduleItem, onSelect: onSelectItem))
                             .toList(),
                   )),
             ),
@@ -131,7 +195,7 @@ class _ModulesPageState extends State<ModulesPage> {
                   ),
                   FloatingActionButton(
                     onPressed: () {
-                      gotoPage(context, SelectedModulesPage(module_list: selectedModules));
+                      proceed();
                     },
                     child: Icon(
                       Feather.plus,

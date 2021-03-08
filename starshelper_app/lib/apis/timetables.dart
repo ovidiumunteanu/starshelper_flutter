@@ -1,19 +1,17 @@
+import 'dart:developer';
 import 'dart:ffi';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:starshelper_app/models/lesson.dart';
-import '../models/module.dart';
+import '../models/timetable.dart';
 
-class api_modules {
+class api_timetables {
   
-  static final db = FirebaseDatabase.instance.reference().child('Timetable');
+  static final db = FirebaseDatabase.instance.reference().child('SavedTimeTable');
 
-  // static Future<Void> createData(){
-  //   return db.child("test").set({
-  //     'name': 'Deepak Nishad',
-  //     'description': 'Team Lead'
-  //   });
-  // }
+  static Future<void> createData(CTimeTable timeTableData){
+    return db.child(timeTableData.name).set(CTimeTable.toJson(timeTableData));
+  }
 
   // static Future<Void>  updateData(){
   //   return db.child('test').update({
@@ -25,11 +23,12 @@ class api_modules {
   //   return db.child('test').remove();
   // }
 
-  static Future<List<CLesson>> fetchAll() {
-    List<CLesson> items = [];
+  static Future<List<CTimeTable>> fetchAll() {
+    List<CTimeTable> items = [];
     return db.once().then((DataSnapshot snapshot) {
-      for(dynamic item  in snapshot.value) {
-        items.add(CLesson.fromDynamic(item));
+      Map<dynamic, dynamic> data = snapshot.value;
+      for(dynamic key  in data.keys) {
+        items.add(CTimeTable.fromDynamic(data[key]));
       }
       return items;
     })
