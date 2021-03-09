@@ -64,6 +64,12 @@ class _ViewTmTableState extends State<ViewTmTable>
     });
   }
 
+  List<CLesson> sorted(List<CLesson> input) {
+    input.sort((a, b) => a.Start_Time.compareTo(b.Start_Time));
+    return input;
+  }
+
+  // regenerate timetable
   generate() {
     showLoaderDialog(context, "Please hold while we generate a timetable for you.", "This may take some time, depending on the number of modules.");
     generateTimeTable();
@@ -92,7 +98,7 @@ class _ViewTmTableState extends State<ViewTmTable>
       print("failed");
 
       Navigator.of(context, rootNavigator: true).pop();
-      showAlertDialog(context, () {}, () {
+      showAlertDialog(context, null, () {
         Navigator.of(context, rootNavigator: true).pop();
       }, "Warning!", "There is no available timetables.");
     }
@@ -118,11 +124,11 @@ class _ViewTmTableState extends State<ViewTmTable>
                     child: Column(
                       children: timetable[day] == null
                           ? []
-                          : timetable[day]
+                          : sorted(timetable[day])
                               .map((lessonItem) => LessonItem(
                                     data: lessonItem,
                                     onSelect: () {},
-                                    isHideSwitch: !widget.isNewTable,
+                                    isHideSwitch: true,
                                   ))
                               .toList(),
                     )),

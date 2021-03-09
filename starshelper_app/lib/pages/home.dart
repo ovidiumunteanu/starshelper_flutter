@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Container(
+            Container( 
               child: MaterialButton(child: Text( 'TIMETABLE GENERATOR'),
                 color: C_colors.btnbg,
                 textColor: Colors.white,

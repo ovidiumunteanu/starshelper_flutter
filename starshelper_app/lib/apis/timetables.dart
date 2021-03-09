@@ -1,8 +1,4 @@
-import 'dart:developer';
-import 'dart:ffi';
-
 import 'package:firebase_database/firebase_database.dart';
-import 'package:starshelper_app/models/lesson.dart';
 import '../models/timetable.dart';
 
 class api_timetables {
@@ -13,15 +9,15 @@ class api_timetables {
     return db.child(timeTableData.name).set(CTimeTable.toJson(timeTableData));
   }
 
-  // static Future<Void>  updateData(){
+  // static Future<void>  updateData(){
   //   return db.child('test').update({
   //     'description': 'CEO'
   //   });
   // }
 
-  // static Future<Void>  deleteData(){
-  //   return db.child('test').remove();
-  // }
+  static Future<void>  deleteData(String tableName){
+    return db.child(tableName).remove();
+  }
 
   static Future<List<CTimeTable>> fetchAll() {
     List<CTimeTable> items = [];

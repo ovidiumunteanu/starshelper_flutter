@@ -7,6 +7,14 @@ import '../models/lesson.dart';
 import '../models/combindIndexes.dart';
 import './global.dart';
 
+String getTimeStr(int timeVal){
+  String strTime = timeVal.toString();
+  for(int i = 0; i < (4 - strTime.length); i ++ ) {
+    strTime = "0" + strTime;
+  }
+  return strTime;
+}
+
 showAlertDialog(BuildContext context, Function onCancel, Function onOk,
     String title, String message) {
   // set up the buttons
@@ -23,10 +31,7 @@ showAlertDialog(BuildContext context, Function onCancel, Function onOk,
   AlertDialog alert = AlertDialog(
     title: Text(title),
     content: Text(message),
-    actions: [
-      // cancelButton,
-      continueButton,
-    ],
+    actions: onCancel == null ? [continueButton]: [cancelButton, continueButton],
   );
 
   // show the dialog
@@ -219,6 +224,7 @@ Map<String, List<CLesson>> createTimeTable(CcombinedIndexes indexes) {
           crashed = false;
         } else {
           crashed = true;
+          break;
         }
       }
       if (crashed) {
@@ -243,12 +249,8 @@ List<List<T>> cartesian<T>(List<List<T>> list) {
 }
 
 bool isCrash(CLesson lesson1, CLesson lesson2) {
-  // print(lesson1.Day);
-  // print(lesson2.Day);
-  // print(lesson1.Start_Time);
-  // print(lesson1.End_Time);
-  // print(lesson2.Start_Time);
-  // print(lesson2.End_Time);
+  // print("${lesson1.Day} - ${lesson2.Day} , ${lesson1.Start_Time} - ${lesson2.Start_Time}, ${lesson1.End_Time}- ${lesson2.End_Time}, ${((lesson1.Day == lesson2.Day) && (lesson1.Start_Time < lesson2.End_Time) && (lesson1.End_Time > lesson2.Start_Time))}");
+
   if ((lesson1.Day == lesson2.Day) &&
       (lesson1.Start_Time < lesson2.End_Time) &&
       (lesson1.End_Time > lesson2.Start_Time)) {

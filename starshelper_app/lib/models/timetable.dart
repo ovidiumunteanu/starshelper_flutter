@@ -1,11 +1,13 @@
 import './lesson.dart';
 
+// timetable class, this timetable class shows the list of lessons for each dayes 
 class CTimeTable {
   final String name;
   final Map<String, List<CLesson>> data;
 
   CTimeTable(this.name, this.data);
 
+  // this function get timetable class from db
   static CTimeTable fromDynamic(dynamic timtableData) {
     Map<dynamic, dynamic> tmpData = timtableData["data"];
 
@@ -23,6 +25,7 @@ class CTimeTable {
         convertedData);
   }
 
+  // convert timetable class to json map to save firebase db
   static Map<String, dynamic> toJson(CTimeTable timtableData) {
 
     Map<String, List<CLesson>> tmpData = timtableData.data;

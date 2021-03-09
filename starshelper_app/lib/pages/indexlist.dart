@@ -32,33 +32,36 @@ class _IndexListPageState extends State<IndexListPage> {
     super.initState();
   }
 
+  // when click bottom right button
   proceed() {
     showSaveTimeTableDialog(context, () {
       Navigator.of(context, rootNavigator: true).pop();
     }, (String tableName) {
       if (tableName.isEmpty) {
-        showAlertDialog(context, () {}, () {
+        showAlertDialog(context, null, () {
           Navigator.of(context, rootNavigator: true).pop();
         }, "Warning!", "Enter tablename!");
         return;
       }
+      // show loading dialog
       showLoaderDialog(context, "Saving timetable...", null);
       saveTimeTable(tableName);
     });
   }
 
+  // save timetable to db with entered tablename
   saveTimeTable(String tableName) {
     api_timetables.createData(CTimeTable(tableName, widget.timeTable)).then((res) {
       Navigator.of(context, rootNavigator: true).pop(); // close loading
       Navigator.of(context, rootNavigator: true).pop(); // close timetable modal
-      showAlertDialog(context, () {}, () {
+      showAlertDialog(context, null, () {
           Navigator.of(context, rootNavigator: true).pop();
           // go home page
           gotoPageReplacement(context, MyHomePage(title: 'Home',));
         }, "Success!", "Your tablename saved!");
     }).catchError((err) {
       Navigator.of(context, rootNavigator: true).pop(); // close loading
-      showAlertDialog(context, () {}, () {
+      showAlertDialog(context, null, () {
           Navigator.of(context, rootNavigator: true).pop();
         }, "Error!", "Couldn't save this tablename!");
       print('save timetable error $err');

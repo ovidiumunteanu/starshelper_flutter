@@ -9,7 +9,6 @@ import '../models/combindIndexes.dart';
 import '../models/lesson.dart';
 import '../models/index.dart';
 import '../utils/helper.dart';
-import './genTtable.dart';
 import '../utils/global.dart';
 import './viewtimetable.dart';
 
@@ -36,25 +35,29 @@ class _SelectedModulesPageState extends State<SelectedModulesPage> {
   proceed() {
     showLoaderDialog(context, "Please hold while we generate a timetable for you.", "This may take some time, depending on the number of modules.");
     generateTimeTable();
-    // gotoPage(context, GeneratePage(selectedAllmodules: widget.selectedAllmodules));
   }
 
+  // generate timetable
   Future generateTimeTable() async {
+    // get all available index combines from selected modules
     List<CcombinedIndexes> indexes =
         await compute(getAllcombinedIndexes, widget.selectedAllmodules);
 
-    // for each combined index , create timetable
+    // for each combined index , create timetable, 
+    // this function returns the created timetable and all indexes and used indexes for this timetable
     Map<String, dynamic> result =
         await compute(getTimetableFromIndexes, indexes);
     if (result != null) {
-      Navigator.of(context, rootNavigator: true).pop();
+      Navigator.of(context, rootNavigator: true).pop(); // close loading modal
       print("success");
 
       Map<String, List<CLesson>> genTimeTable  = result["timetable"];
-      Global().availCombinedIndexList = result["indexes"];
+      Global().availCombinedIndexList = result["indexes"]; // backup all indexes to global to use it later 
       
-      showAlertDialog(context, () {}, () {
-        Navigator.of(context, rootNavigator: true).pop();
+      // show success modal
+      showAlertDialog(context, null, () {
+        Navigator.of(context, rootNavigator: true).pop(); // close this modal
+        // go to preview timetable page
         gotoPage(context, ViewTmTable(isNewTable: true, tableName: "", TimeTable: genTimeTable, usedIndex: result["usedIndex"],));
       }, "Success!", "Timetable is created");
 
@@ -62,7 +65,7 @@ class _SelectedModulesPageState extends State<SelectedModulesPage> {
       print("failed");
 
       Navigator.of(context, rootNavigator: true).pop();
-      showAlertDialog(context, () {}, () {
+      showAlertDialog(context, null, () {
         Navigator.of(context, rootNavigator: true).pop();
       }, "Warning!", "There is no available timetables.");
     }

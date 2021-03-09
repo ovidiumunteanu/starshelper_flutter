@@ -7,7 +7,7 @@ import '../components/moduleitem.dart';
 import '../models/lesson.dart';
 import '../models/timetable.dart';
 import '../apis/timetables.dart';
-import '../utils/global.dart';
+import '../utils/constant.dart';
 import '../utils/helper.dart';
 import './viewtimetable.dart';
 
@@ -30,7 +30,11 @@ class _TTablesPageState extends State<TTablesPage> {
   @override
   void initState() {
     super.initState();
+    // load timetable list 
+    loadTimeTableList();
+  }
 
+  loadTimeTableList() {
     setState(() {
       isloading = true;
     });
@@ -47,8 +51,24 @@ class _TTablesPageState extends State<TTablesPage> {
     });
   }
 
-  goTimeTableDetail(CTimeTable item){
-    gotoPage(context, ViewTmTable(isNewTable: false, tableName: item.name, TimeTable: item.data, usedIndex: null));
+  // when click one list item, go to timetable details
+  goTimeTableDetail(CTimeTable item) {
+    gotoPage(context, ViewTmTable(isNewTable: false,tableName: item.name,TimeTable: item.data,usedIndex: null));
+  }
+
+  onDeleteTable(CTimeTable item) {
+    showAlertDialog(context, () {
+      Navigator.of(context, rootNavigator: true).pop();
+    }, () {
+      // delete timetable by it's name in firebase db
+      api_timetables.deleteData(item.name).then((value){
+        Navigator.of(context, rootNavigator: true).pop();
+        loadTimeTableList();
+      })
+      .catchError((err) {
+        print('delete timetable error :  $err');
+      });
+    }, "Confirm", "Are you sure to delete this timetable?");
   }
 
   @override
@@ -95,7 +115,20 @@ class _TTablesPageState extends State<TTablesPage> {
                                         style: TextStyle(color: Colors.black87),
                                         textAlign: TextAlign.start,
                                       ),
-                                      onTap: () { goTimeTableDetail(item); },
+                                      trailing: MaterialButton(
+                                        minWidth: 16,
+                                        child: Icon(Feather.trash_2,
+                                            size: 20, color: C_colors.bg),
+                                        color: Colors.white,
+                                        elevation: 0,
+                                        textColor: C_colors.bg,
+                                        onPressed: () {
+                                          onDeleteTable(item);
+                                        },
+                                      ),
+                                      onTap: () {
+                                        goTimeTableDetail(item);
+                                      },
                                       horizontalTitleGap: 20,
                                     ),
                                   ),

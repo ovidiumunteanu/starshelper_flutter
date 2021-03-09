@@ -1,3 +1,5 @@
+
+// lesson class, this class contains all information of a lesson
 class CLesson {
   final String Day;
   final int Start_Time;
