@@ -24,34 +24,45 @@ class _MyHomePageState extends State<MyHomePage> {
             width: double.infinity,
             height: double.infinity,
             decoration: BoxDecoration(
-                              color: C_colors.bg,
+                              color: Colors.white,
                               border: Border.all(
                                   style: BorderStyle.solid,
                                   color: Colors.white)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
+            Image.asset(
+            'assets/imgs/clock.png',
+            width: scrWidth * 0.4,
+            height: scrWidth * 0.4,
+            fit: BoxFit.contain,
+          ),
             Container( 
               child: MaterialButton(child: Text( 'TIMETABLE GENERATOR'),
-                color: C_colors.btnbg,
                 textColor: Colors.white,
                 minWidth: scrWidth * 0.8,
                 height: 50,
                 onPressed: () {
                   gotoPage(context, ModulesPage());
               },),
-              margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(top: 120),
+              decoration: BoxDecoration(
+                color: C_colors.bg,
+                borderRadius: BorderRadius.circular(25),)
             ),
             Container(
               child: MaterialButton(child: Text( 'VIEW SAVED TIMETABLES'), 
-                color: C_colors.btnbg,
-                textColor: Colors.white,
+                textColor: C_colors.bg,
                 minWidth: scrWidth * 0.8,
                 height: 50,
                 onPressed: () {
                   gotoPage(context, TTablesPage());
               },),
               margin: EdgeInsets.only(top: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(style: BorderStyle.solid, color: C_colors.bg),
+                borderRadius: BorderRadius.circular(25),)
             ),
             
           ],
