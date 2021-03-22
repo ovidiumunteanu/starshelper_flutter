@@ -9,7 +9,7 @@ import '../models/timetable.dart';
 import '../apis/timetables.dart';
 import '../utils/constant.dart';
 import '../utils/helper.dart';
-import './viewtimetable.dart';
+import './timetable.dart';
 
 class TTablesPage extends StatefulWidget {
   TTablesPage({Key key}) : super(key: key);

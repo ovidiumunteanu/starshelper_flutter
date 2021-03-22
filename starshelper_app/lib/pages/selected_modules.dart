@@ -10,7 +10,7 @@ import '../models/lesson.dart';
 import '../models/index.dart';
 import '../utils/helper.dart';
 import '../utils/global.dart';
-import './viewtimetable.dart';
+import './timetable.dart';
 
 class SelectedModulesPage extends StatefulWidget {
   SelectedModulesPage({Key key, this.selectedAllmodules}) : super(key: key);
