@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:starshelper_app/utils/constant.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import '../models/module.dart';
-import '../models/combindIndexes.dart';
-import '../models/lesson.dart';
-import '../models/index.dart';
-import '../utils/helper.dart';
-import '../utils/global.dart';
+import '../../models/module.dart';
+import '../../models/combindIndexes.dart';
+import '../../models/lesson.dart';
+import '../../models/index.dart';
+import '../../utils/helper.dart';
+import '../../utils/global.dart';
 import './timetable.dart';
 
 class SelectedModulesPage extends StatefulWidget {

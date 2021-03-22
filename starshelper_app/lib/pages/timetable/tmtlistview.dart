@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:starshelper_app/utils/constant.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
-import '../components/lessonitem.dart';
+import '../../components/lessonitem.dart';
 // utils
-import '../utils/helper.dart';
-import '../utils/global.dart';
+import '../../utils/helper.dart';
+import '../../utils/global.dart';
 // models
-import '../models/module.dart';
-import '../models/combindIndexes.dart';
-import '../models/lesson.dart';
+import '../../models/module.dart';
+import '../../models/combindIndexes.dart';
+import '../../models/lesson.dart';
 import './indexlist.dart';
 //
 

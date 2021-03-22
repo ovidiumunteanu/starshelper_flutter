@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:starshelper_app/utils/constant.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import '../components/moduleitem.dart';
-import '../models/lesson.dart';
-import '../models/timetable.dart';
-import '../apis/timetables.dart';
-import '../utils/constant.dart';
-import '../utils/helper.dart';
+import '../../components/moduleitem.dart';
+import '../../models/lesson.dart';
+import '../../models/timetable.dart';
+import '../../apis/timetables.dart';
+import '../../utils/constant.dart';
+import '../../utils/helper.dart';
 import './timetable.dart';
 
 class TTablesPage extends StatefulWidget {

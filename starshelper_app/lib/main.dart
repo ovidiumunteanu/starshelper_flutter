@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
-import './pages/home.dart';
+import './pages/auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp().then((value) => 
+    runApp(MyApp())
+  )
+  .catchError((err) => {
+    print(err)
+  });
+  
 }
 
 class MyApp extends StatelessWidget {
@@ -11,10 +19,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Home',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blue,scaffoldBackgroundColor: Colors.white, primaryColor: Colors.white
       ),
-      home: MyHomePage(title: 'Home'),
+      home: AuthPage(),
     );
   }
 }

@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import '../utils/constant.dart';
-import '../utils/helper.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:starshelper_app/bloc.navigation_bloc/navigation_bloc.dart';
+import '../../utils/constant.dart';
+import '../../utils/helper.dart';
 import './modules.dart'; // module list page
 import './timetables.dart'; // timetable list page
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class TTHomePage extends StatefulWidget with NavigationStates{
+  TTHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _TTHomePageState createState() => _TTHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _TTHomePageState extends State<TTHomePage> {
   
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Image.asset(
-            'assets/imgs/clock.png',
+            'assets/images/clock.png',
             width: scrWidth * 0.4,
             height: scrWidth * 0.4,
             fit: BoxFit.contain,

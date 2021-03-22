@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:starshelper_app/models/index.dart';
 import 'package:starshelper_app/utils/constant.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import '../components/searchbar.dart';
-import '../components/moduleitem.dart';
+import '../../components/searchbar.dart';
+import '../../components/moduleitem.dart';
 // apis
-import '../apis/modules.dart';
+import '../../apis/modules.dart';
 // utils
-import '../utils/helper.dart';
+import '../../utils/helper.dart';
 // pages
 import './selected_modules.dart';
 // models
-import '../models/module.dart';
-import '../models/lesson.dart';
+import '../../models/module.dart';
+import '../../models/lesson.dart';
 
 class ModulesPage extends StatefulWidget {
   ModulesPage({Key key}) : super(key: key);
