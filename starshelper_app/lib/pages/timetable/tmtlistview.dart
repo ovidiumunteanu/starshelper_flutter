@@ -10,7 +10,7 @@ import '../../utils/helper.dart';
 import '../../utils/global.dart';
 // models
 import '../../models/module.dart';
-import '../../models/combindIndexes.dart';
+import '../../models/combinedIndexes.dart';
 import '../../models/lesson.dart';
 import './indexlist.dart';
 //
@@ -39,16 +39,16 @@ class _TmtableListviewState extends State<TmtableListview>
   CcombinedIndexes combinedIndex;
 
   String curDay = "Monday";
-  List<String> FullDayes = [
+  List<String> FullDays = [
     "Monday",
     "Tuesday",
-    "Wednsday",
+    "Wednesday",
     "Thursday",
     "Friday",
     "Saturday",
     "Sunday"
   ];
-  List<String> Dayes = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+  List<String> Days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
   TabController _tabController;
 
   @override
@@ -58,7 +58,7 @@ class _TmtableListviewState extends State<TmtableListview>
     _tabController = new TabController(length: 7, vsync: this);
     _tabController.addListener(() {
       setState(() {
-        curDay = FullDayes[_tabController.index];
+        curDay = FullDays[_tabController.index];
       });
     });
 
@@ -109,7 +109,7 @@ class _TmtableListviewState extends State<TmtableListview>
       Navigator.of(context, rootNavigator: true).pop();
       showAlertDialog(context, null, () {
         Navigator.of(context, rootNavigator: true).pop();
-      }, "Warning!", "There is no available timetables.");
+      }, "Warning!", "There are no available timetables.");
     }
   }
 
@@ -121,7 +121,7 @@ class _TmtableListviewState extends State<TmtableListview>
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: Dayes.map(
+            children: Days.map(
               (day) => SingleChildScrollView(
                   padding: EdgeInsets.all(10),
                   child: Column(
@@ -143,7 +143,7 @@ class _TmtableListviewState extends State<TmtableListview>
             controller: _tabController,
             labelColor: Colors.blue,
             unselectedLabelColor: Colors.black45,
-            tabs: Dayes.map((day) => Tab(
+            tabs: Days.map((day) => Tab(
                   text: day,
                 )).toList()),
         widget.isNewTable == true

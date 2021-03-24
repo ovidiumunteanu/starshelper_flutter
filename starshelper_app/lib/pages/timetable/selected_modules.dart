@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:starshelper_app/utils/constant.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import '../../models/module.dart';
-import '../../models/combindIndexes.dart';
+import '../../models/combinedIndexes.dart';
 import '../../models/lesson.dart';
 import '../../models/index.dart';
 import '../../utils/helper.dart';
@@ -59,7 +59,7 @@ class _SelectedModulesPageState extends State<SelectedModulesPage> {
         Navigator.of(context, rootNavigator: true).pop(); // close this modal
         // go to preview timetable page
         gotoPage(context, ViewTmTable(isNewTable: true, tableName: "", TimeTable: genTimeTable, usedIndex: result["usedIndex"],));
-      }, "Success!", "Timetable is created");
+      }, "Success!", "A timetable has been created!");
 
     } else {
       print("failed");
@@ -67,7 +67,7 @@ class _SelectedModulesPageState extends State<SelectedModulesPage> {
       Navigator.of(context, rootNavigator: true).pop();
       showAlertDialog(context, null, () {
         Navigator.of(context, rootNavigator: true).pop();
-      }, "Warning!", "There is no available timetables.");
+      }, "Warning!", "There are no available timetables.");
     }
   }
 

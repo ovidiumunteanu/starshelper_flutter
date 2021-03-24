@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:starshelper_app/bloc.navigation_bloc/navigation_bloc.dart';
 import '../../models/module.dart';
-import '../../models/combindIndexes.dart';
+import '../../models/combinedIndexes.dart';
 import '../../models/lesson.dart';
 import '../../models/index.dart';
 import '../../models/timetable.dart';
@@ -64,12 +64,12 @@ class _IndexListPageState extends State<IndexListPage> {
         // go home page
         Global().appData["sidebar_initpage"] = TTHomePage(title: 'Home',);
         gotoPageReplacement(context, SideBarLayout());
-      }, "Success!", "Your tablename saved!");
+      }, "Success!", "Your timetable is saved!");
     }).catchError((err) {
       Navigator.of(context, rootNavigator: true).pop(); // close loading
       showAlertDialog(context, null, () {
         Navigator.of(context, rootNavigator: true).pop();
-      }, "Error!", "Couldn't save this tablename!");
+      }, "Error!", "Couldn't save under this tablename!");
       print('save timetable error $err');
     });
   }
