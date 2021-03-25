@@ -24,12 +24,12 @@ class SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
 
     if (_seen) {
       Global().appData["sidebar_initpage"] = HomePage(); //TTHomePage(title: ""); 
-      Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => new SideBarLayout()));
+      Navigator.of(context).pushAndRemoveUntil(
+          new MaterialPageRoute(builder: (context) => new SideBarLayout()), (route)=>false);
     } else {
       await prefs.setBool('seen', true);
-      Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => new Walkthrough()));
+      Navigator.of(context).pushAndRemoveUntil(
+          new MaterialPageRoute(builder: (context) => new Walkthrough()), (route)=>false);
     }
   }
 
