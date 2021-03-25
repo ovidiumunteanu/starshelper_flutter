@@ -1,5 +1,5 @@
 import '../models/module.dart';
-import '../models/combindIndexes.dart';
+import '../models/combinedIndexes.dart';
 
 class Global {
   static final Global _global = Global._internal();

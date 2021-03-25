@@ -10,7 +10,7 @@ import '../../utils/helper.dart';
 import '../../utils/global.dart';
 // models
 import '../../models/module.dart';
-import '../../models/combindIndexes.dart';
+import '../../models/combinedIndexes.dart';
 import '../../models/lesson.dart';
 import './indexlist.dart';
 //
@@ -143,7 +143,7 @@ class _OneDaytimeslotsState extends State<OneDaytimeslots> {
       int tmp_start_mins = lesson_start_hour * 60 + lesson_start_min;
       double lesson_height = stepOnemin() * (tmp_end_mins - tmp_start_mins);
       list.add(getLessonGridItem(
-          lesson_height, "index: " + lesson.index.toString() + "\n\n" + lesson.Module_Code + "-" + lesson.Module_Name));
+          lesson_height, "Index: " + lesson.index.toString() + "\n\n" + lesson.Module_Code + "-" + lesson.Module_Name));
       //
       lastslot_h = lesson_end_hour;
       lastslot_m = lesson_end_min;
@@ -195,16 +195,16 @@ class _TmtableWeekViewState extends State<TmtableWeekView>
   int startcol = 0;
  double gridH = 70;
   String curDay = "Monday";
-  List<String> FullDayes = [
+  List<String> FullDays = [
     "Monday",
     "Tuesday",
-    "Wednsday",
+    "Wednesday",
     "Thursday",
     "Friday",
     "Saturday",
     "Sunday"
   ];
-  List<String> Dayes = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+  List<String> Days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
   List<String> Times = [
     "12 am",
     "1 am",
@@ -245,7 +245,7 @@ class _TmtableWeekViewState extends State<TmtableWeekView>
     _tabController = new TabController(length: 7, vsync: this);
     _tabController.addListener(() {
       setState(() {
-        curDay = FullDayes[_tabController.index];
+        curDay = FullDays[_tabController.index];
       });
     });
 
@@ -260,7 +260,7 @@ class _TmtableWeekViewState extends State<TmtableWeekView>
   List<String> getShowDays() {
     List<String> showdays = [];
     for (int i = startcol; i < startcol + colnum; i++) {
-      showdays.add(Dayes[i]);
+      showdays.add(Days[i]);
     }
     return showdays;
   }

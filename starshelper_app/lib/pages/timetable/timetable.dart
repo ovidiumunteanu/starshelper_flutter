@@ -10,7 +10,7 @@ import '../../utils/helper.dart';
 import '../../utils/global.dart';
 // models
 import '../../models/module.dart';
-import '../../models/combindIndexes.dart';
+import '../../models/combinedIndexes.dart';
 import '../../models/lesson.dart';
 import './indexlist.dart';
 //
@@ -37,7 +37,7 @@ class ViewTmTable extends StatefulWidget {
 
 class _ViewTmTableState extends State<ViewTmTable> {
   int curViewId = 0;
-  List<String> viewList = ["week view", "tab view"];
+  List<String> viewList = ["Weekly view", "Tab view"];
   @override
   void initState() {
     super.initState();

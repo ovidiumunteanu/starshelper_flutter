@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/module.dart';
 import '../models/index.dart';
 import '../models/lesson.dart';
-import '../models/combindIndexes.dart';
+import '../models/combinedIndexes.dart';
 import './global.dart';
 
 String getTimeStr(int timeVal){
