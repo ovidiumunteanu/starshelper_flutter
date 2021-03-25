@@ -22,6 +22,9 @@ class SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
 
+    await prefs.setString('userName', Global().appData["userName"]);
+    await prefs.setString('userEmail', Global().appData["userEmail"]);
+    
     if (_seen) {
       Global().appData["sidebar_initpage"] = HomePage(); //TTHomePage(title: ""); 
       Navigator.of(context).pushAndRemoveUntil(
@@ -73,6 +76,27 @@ class AuthPage extends StatefulWidget with NavigationStates {
 class _AuthPageState extends State<AuthPage> {
   int count = 0;
   // To be changed by login info
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    checkLoggedIn();
+  }
+
+  checkLoggedIn () async {
+    print('checkLoggedIn');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // print("aaaaaa" + prefs.getString('userEmail') );
+
+    if(prefs.getString('userEmail') != null) {
+      Global().appData["userEmail"] = prefs.getString('userEmail');
+      Global().appData["userName"] = prefs.getString('userName');
+      Navigator.push(context,  MaterialPageRoute(builder: (context) => Splash()), );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final _emailController = TextEditingController();

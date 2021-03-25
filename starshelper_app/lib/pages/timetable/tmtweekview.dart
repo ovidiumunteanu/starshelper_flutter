@@ -143,7 +143,8 @@ class _OneDaytimeslotsState extends State<OneDaytimeslots> {
       int tmp_start_mins = lesson_start_hour * 60 + lesson_start_min;
       double lesson_height = stepOnemin() * (tmp_end_mins - tmp_start_mins);
       list.add(getLessonGridItem(
-          lesson_height, "Index: " + lesson.index.toString() + "\n\n" + lesson.Module_Code + "-" + lesson.Module_Name));
+          lesson_height, "Index: " + lesson.index.toString() + 
+            "\n\n" + lesson.Module_Code + "-" + lesson.Module_Name + "\n\n" + lesson.Group + " & " + lesson.Venue));
       //
       lastslot_h = lesson_end_hour;
       lastslot_m = lesson_end_min;
